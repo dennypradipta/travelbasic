@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TravelBasic - {{ title }}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="theme-color" content="#222222">
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+		<link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet" media="screen">
+		<link href="{{ url_for('static', filename='css/dropzone.css') }}" rel="stylesheet" media="screen">
+		<link href="{{ url_for('static', filename='css/cropper.css') }}" rel="stylesheet" media="screen">
+		<link href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}" rel="stylesheet" media="screen">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.dataTables.css') }}">
+    	<link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<nav class="navbar d-lg-none fixed-top bg-dark navbar-dark bg-dark p-0 shadow">
+					<button class="navbar-toggler type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<a class="navbar-brand px-3 m-0" href="#">TravelBasic</a>
+					<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+						<div class="navbar-nav p-3">
+							<a class="nav-link {% if request.endpoint == 'dashboard' or request.endpoint == 'edit' %}active{% endif %}"  href="/dashboard">
+								<svg aria-hidden="true" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-home fa-w-18"><path fill="currentColor" d="M488 312.7V456c0 13.3-10.7 24-24 24H348c-6.6 0-12-5.4-12-12V356c0-6.6-5.4-12-12-12h-72c-6.6 0-12 5.4-12 12v112c0 6.6-5.4 12-12 12H112c-13.3 0-24-10.7-24-24V312.7c0-3.6 1.6-7 4.4-9.3l188-154.8c4.4-3.6 10.8-3.6 15.3 0l188 154.8c2.7 2.3 4.3 5.7 4.3 9.3zm83.6-60.9L488 182.9V44.4c0-6.6-5.4-12-12-12h-56c-6.6 0-12 5.4-12 12V117l-89.5-73.7c-17.7-14.6-43.3-14.6-61 0L4.4 251.8c-5.1 4.2-5.8 11.8-1.6 16.9l25.5 31c4.2 5.1 11.8 5.8 16.9 1.6l235.2-193.7c4.4-3.6 10.8-3.6 15.3 0l235.2 193.7c5.1 4.2 12.7 3.5 16.9-1.6l25.5-31c4.2-5.2 3.4-12.7-1.7-16.9z" class=""></path></svg>
+								<span>Dashboard</span>
+							</a>
+							<a class="nav-link {% if request.endpoint == 'upload' %}active{% endif %}" href="/upload">
+								<svg aria-hidden="true" data-prefix="fas" data-icon="file-upload" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-file-upload fa-w-12"><path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm65.18 216.01H224v80c0 8.84-7.16 16-16 16h-32c-8.84 0-16-7.16-16-16v-80H94.82c-14.28 0-21.41-17.29-11.27-27.36l96.42-95.7c6.65-6.61 17.39-6.61 24.04 0l96.42 95.7c10.15 10.07 3.03 27.36-11.25 27.36zM377 105L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128v-6.1c0-6.3-2.5-12.4-7-16.9z" class=""></path></svg>
+								<span>Upload</span>
+							</a>
+							<a class="nav-link {% if request.endpoint == 'reports' %}active{% endif %}" href="/reports">
+								<svg aria-hidden="true" data-prefix="fas" data-icon="file-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-file-alt fa-w-12"><path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm96-114.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z" class=""></path></svg>
+								<span>Reports</span>
+							</a>
+							<a class="nav-link" href="/logout">
+								<svg aria-hidden="true" data-prefix="fas" data-icon="sign-out-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-sign-out-alt fa-w-16"><path fill="currentColor" d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z" class=""></path></svg>
+								<span>Logout</span>
+							</a>
+						</div>
+					</div>
+				</nav>
+				<nav class="col-md-2 d-none d-lg-block text-light sidebar p-0">
+					<a class="navbar-brand col-sm-12 col-md-12 text-center" href="/">
+						<img src="{{ url_for('static', filename='img/logo.svg') }}" />
+					</a>
+					<div class="sidebar-sticky d-lg-block">
+						<ul class="nav flex-column">
+							<li class="nav-item">
+								<a class="nav-link {% if request.endpoint == 'dashboard' or request.endpoint == 'edit' %}active{% endif %}"  href="/dashboard">
+									<svg aria-hidden="true" data-prefix="fas" data-icon="home" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-home fa-w-18"><path fill="lightgreen" d="M488 312.7V456c0 13.3-10.7 24-24 24H348c-6.6 0-12-5.4-12-12V356c0-6.6-5.4-12-12-12h-72c-6.6 0-12 5.4-12 12v112c0 6.6-5.4 12-12 12H112c-13.3 0-24-10.7-24-24V312.7c0-3.6 1.6-7 4.4-9.3l188-154.8c4.4-3.6 10.8-3.6 15.3 0l188 154.8c2.7 2.3 4.3 5.7 4.3 9.3zm83.6-60.9L488 182.9V44.4c0-6.6-5.4-12-12-12h-56c-6.6 0-12 5.4-12 12V117l-89.5-73.7c-17.7-14.6-43.3-14.6-61 0L4.4 251.8c-5.1 4.2-5.8 11.8-1.6 16.9l25.5 31c4.2 5.1 11.8 5.8 16.9 1.6l235.2-193.7c4.4-3.6 10.8-3.6 15.3 0l235.2 193.7c5.1 4.2 12.7 3.5 16.9-1.6l25.5-31c4.2-5.2 3.4-12.7-1.7-16.9z" class=""></path></svg>
+									<span>Dashboard</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link {% if request.endpoint == 'upload' %}active{% endif %}" href="/upload">
+									<svg aria-hidden="true" data-prefix="fas" data-icon="file-upload" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-file-upload fa-w-12"><path fill="lightblue" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm65.18 216.01H224v80c0 8.84-7.16 16-16 16h-32c-8.84 0-16-7.16-16-16v-80H94.82c-14.28 0-21.41-17.29-11.27-27.36l96.42-95.7c6.65-6.61 17.39-6.61 24.04 0l96.42 95.7c10.15 10.07 3.03 27.36-11.25 27.36zM377 105L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128v-6.1c0-6.3-2.5-12.4-7-16.9z" class=""></path></svg>
+									<span>Upload</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link {% if request.endpoint == 'reports' %}active{% endif %}" href="/reports">
+									<svg aria-hidden="true" data-prefix="fas" data-icon="file-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-file-alt fa-w-12"><path fill="lightyellow" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm96-114.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z" class=""></path></svg>
+									<span>Reports</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/logout">
+									<svg aria-hidden="true" data-prefix="fas" data-icon="sign-out-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-sign-out-alt fa-w-16"><path fill="orange" d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z" class=""></path></svg>
+									<span>Logout</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				{% block content %}{% endblock %}
+			</div>
+		</div>
+	</body>
+	<div class="modal fade" tabindex="-1" role="dialog" id="editModal" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Crop Gambar</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="cropper-wrapper">
+						<img id="cropper-image" src="" height="auto" width="100%"></img>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary buttons-delete" data-dismiss="modal">Tutup</button>
+					<button type="submit" class="btn btn-secondary buttons-csv" id="process_image" onclick="crop_image()">Proses</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" tabindex="-1" role="dialog" id="alertModal" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Pesan</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p id="alertMessage"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary buttons-delete" data-dismiss="modal">Tutup</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" tabindex="-1" role="dialog" id="confirmSaveDialog" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Konfirmasi</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Apakah data yang diinput sudah benar?</p>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-secondary buttons-delete mr-3" data-dismiss="modal">Tutup</a>
+					<button type="submit" class="btn btn-secondary buttons-csv" onclick="document.getElementById('dataForm').submit();">Simpan</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/cropper.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-cropper.min.js') }}" ></script>
+	<script type="text/javascript" charset="utf8" src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/dropzone.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/dataTables.buttons.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.bootstrap4.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.html5.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.flash.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.print.min.js') }}" ></script>
+	<script type="text/javascript" charset="utf8" src="{{ url_for('static', filename='js/jszip.min.js') }}" ></script>
+	<script type="text/javascript" charset="utf8" src="{{ url_for('static', filename='js/pdfmake.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/vfs_fonts.js') }}" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/moments.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/controller.js') }}"></script>
+</html>

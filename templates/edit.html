@@ -1,0 +1,78 @@
+{% extends "_base_dashboard.html" %}
+
+{% block content %}
+
+<main role="main" class="col-md-8 ml-sm-auto col-lg-10 px-4">
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<h1 class="content-title">Edit</h1>
+	</div>
+
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			<ul class="flashes p-0">
+			{% for category, message in messages %}
+				<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+					{{message|safe}}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+
+	<form id="dataForm" action="" method="POST">
+		<div class="row my-5">
+			<div class="col-lg-4 col-md-12 text-center">
+				<img id="display_img" class="img-thumbnail" src="../{{ data.image_path }}">
+			</div>
+			<div class="col-lg-8 col-md-12 p-3">
+				<div class="row">
+					<div class="col-12">
+						<input type="hidden" id="passport_image" name="passport_image" value="{{ data.image }}">
+						<input type="hidden" id="passport_path" name="passport_path" value="{{ data.image_path }}">
+						<label>Nomor Paspor:</label>
+						<input class="form-control" type="text" name="passport_num" id="passport_num" value="{{ data.passport_num }}">
+						<label>Nama Lengkap:</label>
+						<input class="form-control" type="text" name="name" id="name" value="{{ data.name }}">
+						<label>Negara yang Mengeluarkan:</label>
+						<div class="row">
+							<div class="col-6">
+								<input class="form-control" type="text" name="issue" id="issue" required="" value="{{ data.issue }}" oninput="getNationName('#issuecheck', this.value);">
+							</div>
+							<div class="col-6">
+								<input class="form-control" type="text" name="issuecheck" id="issuecheck" required=""  value="{{ data.issue_n }}" readonly="true">
+							</div>
+						</div>
+						<label>Kewarganegaraan:</label>
+						<div class="row">
+							<div class="col-6">
+								<input class="form-control" type="text" name="nation" id="nation" required="" value="{{ data.nation }}" oninput="getNationName('#nationcheck', this.value);">
+							</div>
+							<div class="col-6">
+								<input class="form-control" type="text" name="nationcheck" id="nationcheck" required="" value="{{ data.nation_n }}" readonly="true">
+							</div>
+						</div>
+						<label>Jenis Kelamin:</label>
+						<select class="form-control" id="sex" name="sex">
+							<option {% if data.sex == "LAKI-LAKI"%}selected{% endif %}>LAKI-LAKI</option>
+							<option {% if data.sex == "PEREMPUAN"%}selected{% endif %}>PEREMPUAN</option>
+							<option {% if data.sex == "TIDAK DISEBUTKAN"%}selected{% endif %}>TIDAK DISEBUTKAN</option>
+						</select>
+						<label>Tanggal Lahir (DD/MM/YYYY):</label>
+						<input class="form-control" type="text" name="birthdate" id="birthdate" value="{{ data.birthdate.strftime('%d/%m/%Y') }}">
+						<label>Tanggal Kadaluarsa (DD/MM/YYYY):</label>
+						<input class="form-control" type="text" name="expirydate" id="expirydate" value="{{ data.expirydate.strftime('%d/%m/%Y') }}">
+					</div>
+					<div class="col-12 pt-3 text-right">
+						<a class="btn btn-secondary mr-3 buttons-delete" href="/dashboard">Batal</a>
+						<a class="btn btn-secondary buttons-csv" id="submit" onclick="confirm()">Simpan</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</main>
+
+{% endblock %}

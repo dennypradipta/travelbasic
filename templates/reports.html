@@ -1,0 +1,90 @@
+{% extends "_base_dashboard.html" %}
+
+{% block content %}
+
+<main role="main" class="col-md-12 ml-sm-auto col-lg-10 px-4">
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<h1 class="content-title">Reports</h1>
+	</div>
+
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			<ul class="flashes p-0">
+			{% for category, message in messages %}
+				<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+					{{message}}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-top border-bottom mb-3">
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-3 buttons-copy">
+			<div class="">
+				<h4 class="panel-heading">Modul Laporan</h4>
+				<hr>
+				<p>Modul ini digunakan untuk mengekspor data paspor yang telah diinput dalam jangka waktu yang ditentukan. Data yang sudah dipilih dalam jangka waktu tersebut dapat diekspor ke dalam bentuk CSV maupun PDF yang nantinya dapat digunakan untuk keperluan lain.</p>
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-3 buttons-csv">
+			<div class="">
+				<h4 class="panel-heading">Prosedur</h4>
+				<hr>
+				<ul>
+					<li>Memilih jangka waktu data yang akan diambil</li>
+					<li>Mengecek data apakah sesuai dengan yang diinginkan</li>
+					<li>Memilih metode ekspor yaitu dalam format CSV atau PDF</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<form>
+				<div class="row">
+					<div class="col-lg-6 col-md-12">
+						<div class="row">
+							<div class="col-md-6 p-0">
+								<label for="datepicker" class="col-12">Dari tanggal:
+									<input id="datepicker_from" class="form-control" readonly="true" />
+								</label>
+							</div>
+							<div class="col-md-6 p-0">
+								<label for="datepicker" class="col-12">Sampai tanggal:
+									<input id="datepicker_to" class="form-control col-12" readonly="true" />
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-12">
+						<div class="row">
+							<div class="col-md-12">
+								<label class="col-12"></label>
+								<a id="searchdata" class="btn btn-secondary buttons-csv btn-block"><i class="fas fa-search"></i> Cari</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12" id="result">
+						<table class="table col-lg-12 col-12 p-0 m-0 table-striped" id="datatable">
+							<thead class="table-bordered bg-darkgray text-white">
+								<tr>
+									<th scope="col" style="width: 10%">No.</th>
+									<th scope="col" style="width: 40%"></th>
+									<th scope="col" style="width: 50%">Data</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+	</div>
+</main>
+
+{% endblock %}

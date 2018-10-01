@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TravelBasic - {{ title }}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="theme-color" content="#222">
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+		<link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet" media="screen">
+	</head>
+
+	<body class="auth">
+		<form class="form-signin" method='POST'>
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					<ul class="flashes p-0">
+					{% for category, message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" id="alert" role="alert">
+							{{message}}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+					</ul>
+				{% endif %}
+			{% endwith %}
+			<img src="{{ url_for('static', filename='img/logo.svg') }}" />
+			<h3 class="pt-5 text-center" style="letter-spacing: 8px">REGISTRASI</h3>
+			<label for="inputEmail" class="sr-only">Username</label>
+			<input type="text" name="username" class="form-control" placeholder="Username" required="" autofocus="">
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input type="password" name="password" class="mt-2 form-control" placeholder="Password" required="">
+			<button class="btn btn-lg btn-secondary buttons-edit btn-block" type="submit">Daftar</button>
+			<p class="mt-5 mb-3 text-center">TravelBasic © 2018</p>	
+		</form>
+	</body>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
+</html>
